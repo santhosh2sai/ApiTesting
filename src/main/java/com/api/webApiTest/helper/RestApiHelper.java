@@ -21,14 +21,13 @@ public class RestApiHelper {
 			// TODO Auto-generated catch block
 			throw new RuntimeException(e.getMessage(), e);
 		}
-		
-		
+
 	}
-	
+
 	public static RestResponse performGetRequest(URI uri) {
-		
+
 		HttpGet get = new HttpGet(uri);
-		try(CloseableHttpClient client = HttpClientBuilder.create().build();
+		try (CloseableHttpClient client = HttpClientBuilder.create().build();
 				CloseableHttpResponse response = client.execute(get)) {
 			ResponseHandler<String> body = new BasicResponseHandler();
 			return new RestResponse(response.getStatusLine().getStatusCode(), body.handleResponse(response));
