@@ -1,4 +1,4 @@
-package com.api.webApiTest;
+package com.api.webApiTest.helper;
 
 /**
  * Hello world!
