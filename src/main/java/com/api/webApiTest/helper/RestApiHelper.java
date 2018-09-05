@@ -1,5 +1,8 @@
 package com.api.webApiTest.helper;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,7 +15,19 @@ import com.api.webApiTest.model.RestResponse;
 public class RestApiHelper {
 
 	public static RestResponse performGetRequest(String url) {
-		HttpGet get = new HttpGet(url);
+		try {
+			return performGetRequest(new URI(url));
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e.getMessage(), e);
+		}
+		
+		
+	}
+	
+	public static RestResponse performGetRequest(URI uri) {
+		
+		HttpGet get = new HttpGet(uri);
 		try(CloseableHttpClient client = HttpClientBuilder.create().build();
 				CloseableHttpResponse response = client.execute(get)) {
 			ResponseHandler<String> body = new BasicResponseHandler();
@@ -21,7 +36,5 @@ public class RestApiHelper {
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
-		
-		
 	}
 }
