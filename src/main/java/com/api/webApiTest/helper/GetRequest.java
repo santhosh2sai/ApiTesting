@@ -1,5 +1,16 @@
 package com.api.webApiTest.helper;
 
+import java.io.IOException;
+
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+
 import com.api.webApiTest.model.RestResponse;
 
 public class GetRequest {
@@ -27,8 +38,32 @@ public class GetRequest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}*/
-		RestResponse response = RestApiHelper.performGetRequest("http://localhost:8080/laptop-bag/webapi/api/ping/sais",null);
-		System.out.println(response.toString());
+	/*	RestResponse response = RestApiHelper.performGetRequest("http://localhost:8080/laptop-bag/webapi/api/ping/sais",null);
+		System.out.println(response.toString());*/
+		String jsonBody = "{" +
+				"\"BrandName\": \"Dell\"," +
+				"\"Features\": {" +
+					"\"Feature\": [\"8GB RAM\"," +
+					"\"1TB Hard Drive\"]"+
+				"}," +
+				"\"Id\": " + (int)(1000*(Math.random())) + "," +
+				"\"LaptopName\": \"Latitude\"" +
+			"}";
+		
+		HttpPost post = new HttpPost("http://localhost:8080/laptop-bag/webapi/api/add");
+		try(CloseableHttpClient client = HttpClientBuilder.create().build()){
+		post.addHeader("Content-Type","application/json");
+		post.addHeader("Accept","application/json");
+		StringEntity data = new StringEntity(jsonBody, ContentType.APPLICATION_JSON);
+		post.setEntity(data);
+		CloseableHttpResponse response = client.execute(post);
+		ResponseHandler<String> handler = new BasicResponseHandler();
+		RestResponse restResponse = new RestResponse(response.getStatusLine().getStatusCode(), handler.handleResponse(response));
+		System.out.println(restResponse.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

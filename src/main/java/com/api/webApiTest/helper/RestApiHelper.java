@@ -1,7 +1,5 @@
 package com.api.webApiTest.helper;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -13,8 +11,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.hamcrest.core.IsInstanceOf;
-
 import com.api.webApiTest.model.RestResponse;
 
 public class RestApiHelper {
