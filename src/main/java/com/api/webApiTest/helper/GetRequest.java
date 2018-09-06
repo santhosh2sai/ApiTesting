@@ -1,11 +1,15 @@
 package com.api.webApiTest.helper;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -49,12 +53,15 @@ public class GetRequest {
 				"\"Id\": " + (int)(1000*(Math.random())) + "," +
 				"\"LaptopName\": \"Latitude\"" +
 			"}";
-		
-		HttpPost post = new HttpPost("http://localhost:8080/laptop-bag/webapi/api/add");
+		//   Post data to an api
+		/*HttpPost post = new HttpPost("http://localhost:8080/laptop-bag/webapi/api/add");
 		try(CloseableHttpClient client = HttpClientBuilder.create().build()){
 		post.addHeader("Content-Type","application/json");
 		post.addHeader("Accept","application/json");
-		StringEntity data = new StringEntity(jsonBody, ContentType.APPLICATION_JSON);
+		//StringEntity data = new StringEntity(jsonBody, ContentType.APPLICATION_JSON);
+		//post.setEntity(data);
+		File file = new File("TestDataFile");
+		FileEntity data = new FileEntity(file, ContentType.APPLICATION_JSON);
 		post.setEntity(data);
 		CloseableHttpResponse response = client.execute(post);
 		ResponseHandler<String> handler = new BasicResponseHandler();
@@ -64,6 +71,11 @@ public class GetRequest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+*/			Map<String,String> headers = new HashMap<String,String>();
+			headers.put("Accept", "application/json");
+			headers.put("Content-Type", "application/json");
+			RestResponse response = RestApiHelper.performPostRequest("http://localhost:8080/laptop-bag/webapi/api/add", jsonBody, headers);
+			System.out.println(response.toString());
+		}
 
 }
